@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <style>
+        #characters {
+            background-color: blueviolet
+    
+        }
+        #enemies {
+            background-color:cadetblue
+
+        }
+
+        #player {
+            background-color:coral;
+        }
+
+        #opponent{
+            background-color: greenyellow;
+            float: right;
+        }
+
+        img {
+            width: 115px;
+            height: 120px;
+            padding: 20px;
+        }
+    </style>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+</head>
+<body>
+
+
+    <div id="prompt">Select Your Pokemon!</div>
+    <div id="characters">
+        <img id='bulbasaur' src='assets/bulbasaur.jpg'>
+        <img id='charmander' src='assets/charmander.jpg'>
+        <img id='pikachu' src='assets/pikachu.jpg'>
+        <img id='squirtle' src='assets/squirtle.jpg'>
+      
+    </div>
+
+    <div id="player">
+
+    <div id="opponent">
+</div>
+    </div>
+
+    <div id="enemies">
+
+    </div>
+
+ 
+
+    
+
+    <button id="attack">Attack!</button>
+
+    <div id="playerStats">
+        
+    </div>
+
+    <div id="enemyStats">
+
+    </div>
+    
+</body>
+<script>
+
+//set object characters to pokemon with stats
+    var characters = {
+    pikachu:    { base:10, hp:10, ap: 5, cap: 5 },
+    bulbasaur:  { base:10, hp: 8, ap: 6, cap: 5 },
+    squirtle:   { base:10, hp: 7, ap: 4, cap: 2 },
+    charmander: { base:10, hp: 10, ap: 3, cap: 3}
+    };
+
+
+// $("#characters").append(Object.keys(characters).map( (n)=>`<img id="${n}" src="assets/${n}.jpg">`));
+
+//when clicking on characters, chosen character is added to player div and remaining characters
+//are placed inside enemies div. user is prompted to pick opponent. 
+    $("#characters").on('click', function(event) {
+        $("#player").append(event.target);
+        $("#enemies").append($("#characters img"))
+        $("#prompt").text("Pick Your Opponent!")
+        player = characters[event.target.id]
+     })
+
+
+//on click takes selected character out of enemies div and puts it into opponent div
+//changes text to begin battle phrase
+    $("#enemies").on('click', function(event) {
+        $("#enemies").append($("#opponent img"));
+        $("#opponent").append(event.target);
+        $("#prompt").text("Let the battle begin!")
+        opponent = characters[event.target.id]
+     })
+
+     $("button").on('click', function() {
+        player.hp = player.hp - opponent.cap
+        opponent.hp = opponent.hp - player.ap
+        player.ap = player.base + player.ap
+        if (opponent.hp <= 0) {
+            $("#opponent img").remove();
+            if ($('#enemies img').length == 0){
+                $("#prompt").text("You've won your battle!")
+            }
+             else  $("#prompt").text("Pick a new opponent!");
+        }
+        else if (player.hp <= 0) {
+            $("#prompt").text("Your pokemon has been defeated in battle!");
+        }
+    })
+     
+   
+
+</script>
+</html>
