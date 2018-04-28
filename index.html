@@ -54,15 +54,12 @@
 
     </div>
 
- 
-
-    
-
     <button id="attack">Attack!</button>
 
     <div id="playerStats">
-        
+
     </div>
+    <br>
 
     <div id="enemyStats">
 
@@ -79,7 +76,6 @@
     charmander: { base:10, hp: 10, ap: 3, cap: 3}
     };
 
-
 // $("#characters").append(Object.keys(characters).map( (n)=>`<img id="${n}" src="assets/${n}.jpg">`));
 
 //when clicking on characters, chosen character is added to player div and remaining characters
@@ -89,8 +85,8 @@
         $("#enemies").append($("#characters img"))
         $("#prompt").text("Pick Your Opponent!")
         player = characters[event.target.id]
+        $("#playerStats").html("Your HP: " + player.hp + "<br>Your Attack: " + player.ap)
      })
-
 
 //on click takes selected character out of enemies div and puts it into opponent div
 //changes text to begin battle phrase
@@ -99,25 +95,29 @@
         $("#opponent").append(event.target);
         $("#prompt").text("Let the battle begin!")
         opponent = characters[event.target.id]
+        $("#enemyStats").html("Enemy HP: " + opponent.hp + "<br>Enemy Counter Attack: " + opponent.cap)
      })
 
      $("button").on('click', function() {
-        player.hp = player.hp - opponent.cap
-        opponent.hp = opponent.hp - player.ap
-        player.ap = player.base + player.ap
+        player.hp = player.hp - opponent.cap;
+        opponent.hp = opponent.hp - player.ap;
+        player.ap = player.base + player.ap;
+        $("#playerStats").html("Your HP: " + player.hp + "<br>Your Attack: " +player.ap);
+        $("#enemyStats").html("Enemy HP: " + opponent.hp + "<br>Enemy Counter Attack: " + opponent.cap);
+
+
+    
         if (opponent.hp <= 0) {
             $("#opponent img").remove();
             if ($('#enemies img').length == 0){
-                $("#prompt").text("You've won your battle!")
+                $("#prompt").text("You've won your battle!");
             }
-             else  $("#prompt").text("Pick a new opponent!");
-        }
-        else if (player.hp <= 0) {
+            else if (player.hp <= 0) {
             $("#prompt").text("Your pokemon has been defeated in battle!");
         }
+             else  $("#prompt").text("Pick a new opponent!");
+        }
+       
     })
-     
-   
-
 </script>
 </html>
